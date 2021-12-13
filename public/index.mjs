@@ -101,5 +101,5 @@ function getLanguage() {
     return language
 }
 
-const item_list = await getItemList()
+const item_list = new ItemList()
 renderItems(item_list)
