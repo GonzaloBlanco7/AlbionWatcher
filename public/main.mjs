@@ -39,5 +39,5 @@ function renderItems(items) {
 }
 
 items = new Items();
-await items.loadItems()
-renderItems(items.item_list)
+items.loadItems()
+    .then(renderItems(items.item_list))

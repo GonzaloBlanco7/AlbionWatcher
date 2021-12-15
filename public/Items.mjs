@@ -1,12 +1,37 @@
 
 export default class Items {
     constructor() {
-        var item_list = [];
-        console.log(item_list)
+        this.item_list = [];
+        console.log(this.item_list)
     }
 
     async loadItems() {
-        item_list = await getItemList()
+        return new Promise((resolve, reject) => {
+            try {
+                const ITEM_LIST_URL = "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.json";
+
+                fetch(ITEM_LIST_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        // Unkown Status
+                        if (response.status !== 200) {
+                            throw new Error("No ha sido posible actualizar los datos");
+                        }
+
+                        return response.json()
+                    })
+                    .then(data => parseItemList(data))
+                    .then(item_list => resolve(item_list))
+               
+            } catch (e) {
+                reject(e);
+            }
+        })
+        
     }
 
     getFilteredList(search) {
@@ -20,34 +45,13 @@ export default class Items {
             }
         });
     }
-
-    
 }
 
 
 async function getItemList() {
-    const ITEM_LIST_URL = "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.json";
+   
 
-    try {
-        const response = await fetch(ITEM_LIST_URL, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        // Unkown Status
-        if (response.status !== 200) {
-            throw new Error("No ha sido posible actualizar los datos");
-        }
-
-        let data = await response.json()
-
-        return parseItemList(data);
-
-    } catch (error) {
-        console.log("API error")
-    }
+    
 }
 
 function parseItemList(list) {
