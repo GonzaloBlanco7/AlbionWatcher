@@ -61,5 +61,8 @@ document.getElementById("search_form").addEventListener("submit", (event) => {
 
 function handleItemAction(item_id) {
     alert(item_id)
-    getItemCurrentData(item_id).then((data => console.log(data)))
+    const item_data = getItemCurrentData(item_id).then((data => console.log(data)))
+    console.log(item_data)
+    const item_info = items.getItemInfo(item_id)
+    console.log(item_info)
 }

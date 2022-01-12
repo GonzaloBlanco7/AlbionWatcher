@@ -47,7 +47,8 @@ class Items {
     }
 
     getItemInfo(item_id) {
-        
+        const item = this.item_list.find((item) => item.UniqueName == item_id);
+        return item;
     }
 
 
