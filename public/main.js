@@ -23,12 +23,13 @@ function renderItems(items) {
             const tr = items_table_body.insertRow()
 
             const td_action = tr.insertCell()
+            const img = `<img src="${getItemImage(item.UniqueName)}" width="70vw" class="m-0 p-0" alt="View">`
             td_action.innerHTML = `
                 <button 
-                    class="btn btn-info item_action" 
+                    class="btn btn-info item_action p-0" 
                     onclick="handleItemAction('${item.UniqueName}')" 
                 >
-                    View
+                    ${img}
                 </button>`
 
             //const td_id = tr.insertCell()
@@ -60,9 +61,43 @@ document.getElementById("search_form").addEventListener("submit", (event) => {
 })
 
 function handleItemAction(item_id) {
-    alert(item_id)
-    const item_data = getItemCurrentData(item_id).then((data => console.log(data)))
-    console.log(item_data)
     const item_info = items.getItemInfo(item_id)
-    console.log(item_info)
+    console.log('item_info', item_info)
+
+    getItemCurrentData(item_id)
+    .then((data => {
+        console.log(data)
+        const item_info_table_body = document.getElementById("item_info_table_body")
+        item_info_table_body.innerHTML = ""
+
+        data.forEach((item) => {
+            try {
+                const tr = item_info_table_body.insertRow()
+
+                const td_image = tr.insertCell()
+                td_image.innerHTML = `<img 
+                    src="${getItemImage(item.item_id, item.quality)}" 
+                    width="70vw"
+                    class="m-0" 
+                    alt="Enchantment ${item.quality-1}"
+                >`
+
+                const td_city = tr.insertCell();
+                td_city.innerHTML = item.city
+                
+                const td_buy_price = tr.insertCell()
+                td_buy_price.innerHTML = item.buy_price_min + " - " + item.buy_price_max
+                
+                const td_sell_price = tr.insertCell()
+                td_sell_price.innerHTML = item.sell_price_min + " - " + item.sell_price_max
+
+            } catch (error) {
+                console.error("could not render item:", item)
+            }
+        })
+        
+    }))
+    .catch((error) => console.error(error))
+
+    
 }
