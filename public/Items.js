@@ -46,6 +46,10 @@ class Items {
         });
     }
 
+    getItemInfo(item_id) {
+        
+    }
+
 
     //PRIVATE
     static parseItemList(list) {

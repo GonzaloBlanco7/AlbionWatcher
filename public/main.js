@@ -59,3 +59,7 @@ document.getElementById("search_form").addEventListener("submit", (event) => {
     renderItems(filtered_list)
 })
 
+function handleItemAction(item_id) {
+    alert(item_id)
+    getItemCurrentData(item_id).then((data => console.log(data)))
+}
