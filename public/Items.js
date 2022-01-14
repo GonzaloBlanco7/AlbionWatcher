@@ -35,7 +35,7 @@ class Items {
 
     getFilteredList(search) {
         const language = getLanguage();
-        console.log(language)
+
         return this.item_list.filter((item) => {
             try {
                 const name = item.LocalizedNames[language].toLowerCase()
@@ -60,7 +60,7 @@ class Items {
             return item.LocalizedNames //Only if has name
         })
 
-        return list.map((item) => {
+        list = list.map((item) => {
             let tier = item.UniqueName.substr(0, 2)
             if (tier[0] === 'T') {
                 let tier_number = parseInt(tier[1])
@@ -69,7 +69,21 @@ class Items {
                 }
             }
 
+            let quality = item.UniqueName.split('@')
+            item.quality = Number(quality)+1
+
             return item;
+        })
+
+        return list
+        return list.sort((a, b) => {
+            let tier_diff = a.tier - b.tier;
+
+            if (tier_diff == 0) {
+                return (a.quality - b.quality)
+            }
+
+            return tier_diff
         })
     }
 }

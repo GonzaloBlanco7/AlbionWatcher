@@ -22,8 +22,13 @@ function renderItems(items) {
         try {
             const tr = items_table_body.insertRow()
 
+            // Image
+            let [id, quality] = item.UniqueName.split('@');
+            quality = Number(quality) + 1
+            
+            const img = `<img src="${getItemImage(id, quality)}" width="70vw" class="m-0 p-0" alt="View">`
+            
             const td_action = tr.insertCell()
-            const img = `<img src="${getItemImage(item.UniqueName)}" width="70vw" class="m-0 p-0" alt="View">`
             td_action.innerHTML = `
                 <button 
                     class="btn btn-info item_action p-0" 
@@ -62,11 +67,10 @@ document.getElementById("search_form").addEventListener("submit", (event) => {
 
 function handleItemAction(item_id) {
     const item_info = items.getItemInfo(item_id)
-    console.log('item_info', item_info)
 
     getItemCurrentData(item_id)
     .then((data => {
-        console.log(data)
+        console.log(item_id, data)
         const item_info_table_body = document.getElementById("item_info_table_body")
         item_info_table_body.innerHTML = ""
 

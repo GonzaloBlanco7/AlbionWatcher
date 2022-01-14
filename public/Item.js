@@ -2,8 +2,11 @@
 function getItemCurrentData(item_id) {
     //DOC: https://www.albion-online-data.com/
 
+    let [id, quality] = item_id.split('@');
+    quality = Number(quality) + 1
+
     //if item_id is array -> item_id = item_id.join(",")
-    const ITEM_INFO_URL = 'https://www.albion-online-data.com/api/v2/stats/prices/' + item_id + '.json?qualities=1,2,3,4';
+    const ITEM_INFO_URL = 'https://www.albion-online-data.com/api/v2/stats/prices/' + id + '.json?qualities=' + quality;
 
     return new Promise((resolve, reject) => {
         try {
@@ -32,6 +35,7 @@ function getItemCurrentData(item_id) {
 
 function getItemImage(item_id, quality=1) {
     item_id = item_id.split("@")[0]
+    
     let image_url = "https://albiononline2d.ams3.cdn.digitaloceanspaces.com/thumbnails/orig/" + item_id
 
     //echantment 0 -> quality = 1 -> no @
